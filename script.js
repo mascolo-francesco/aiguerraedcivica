@@ -32,9 +32,20 @@ class NavigationManager {
         // Mobile menu toggle
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.querySelector('.nav-menu');
+        
         if (hamburger && navMenu) {
-            hamburger.addEventListener('click', () => {
+            hamburger.addEventListener('click', (e) => {
+                e.preventDefault();
                 navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+            
+                        // Close menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
             });
         }
     }
@@ -336,18 +347,16 @@ function setupSmoothScrolling() {
 }
 
 // ===== INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all managers
-    const navigationManager = new NavigationManager();
-    const contentLoader = new ContentLoader();
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all components
+    new NavigationManager();
+    new ContentLoader();
     
-    // Setup additional features
-    setupSmoothScrolling();
-
-    // Add loading complete class
-    document.body.classList.add('loaded');
-
-    // Console styling
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    
     console.log('%c🤖 AI in Guerra - Sito Minimal Caricato!', 'color: #2c5282; font-size: 16px; font-weight: bold;');
     console.log('%cProgetto di classe sviluppato con HTML, CSS e JavaScript minimal', 'color: #666666; font-size: 12px;');
 });
